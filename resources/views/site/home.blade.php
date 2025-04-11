@@ -271,12 +271,14 @@
                 </div>
             </div>
             @foreach ($categorySpecial as $category)
+                @if ($category->image)
                 <div class="section-banner d-flex align-items-center gap-3 mb-3">
                     <a href="{{route('front.show-product-category', $category->slug)}}" title="banner 1">
                         <img class="img-fluid" alt="banner 1"
                             src="{{$category->image->path ?? ''}}" loading="lazy">
                     </a>
                 </div>
+                @endif
                 <div class="section-product bg-white mb-3">
                     <div class="mb-2 section-title">{{$category->name}}</div>
                     <div class="tab-content">
