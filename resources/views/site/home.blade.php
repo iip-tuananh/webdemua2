@@ -116,7 +116,7 @@
                             <div class="d-flex align-items-center gap-2 mb-3">
                                 <img src="/site/images/user-icon.jpg" alt="user"
                                     class="img-fluid" ng-if="!isAdminClient">
-                                <img src="{{$user->image_avatar}}" alt="admin"
+                                <img src="{{$user ? $user->image_avatar : ''}}" alt="admin"
                                     class="img-fluid" ng-if="isAdminClient">
                                 <div>
                                     <p class="fw-medium">Xin chào quý khách!</p>
