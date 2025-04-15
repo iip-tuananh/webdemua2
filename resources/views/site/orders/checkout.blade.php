@@ -3121,7 +3121,7 @@
                                         </div>
                                         <div class="section-content">
                                             <div class="content-box">
-                                                {{-- <div class="radio-wrapper content-box-row">
+                                                <div class="radio-wrapper content-box-row">
                                                     <label class="radio-label" for="payment_method_id_1003258623">
                                                         <div class="radio-input payment-method-checkbox">
                                                             <input type-id='1' id="payment_method_id_1003258623"
@@ -3138,8 +3138,8 @@
                                                             </div>
                                                         </div>
                                                     </label>
-                                                </div> --}}
-                                                <div class="radio-wrapper content-box-row">
+                                                </div>
+                                                {{-- <div class="radio-wrapper content-box-row">
                                                     <label class="radio-label" for="payment_method_id_1003258625">
                                                         <div class="radio-input payment-method-checkbox">
                                                             <input type-id='2' id="payment_method_id_1003258625"
@@ -3156,7 +3156,7 @@
                                                             </div>
                                                         </div>
                                                     </label>
-                                                </div>
+                                                </div> --}}
                                                 {{-- <div class="radio-wrapper content-box-row content-box-row-secondary "
                                                     for="payment_method_id_1003258625">
                                                     <div class="blank-slate">
