@@ -1,6 +1,6 @@
 .autocomplete-suggestions {
     max-height: 390px !important;
-    border: 1px solid #13769f;
+    border: 1px solid #00aeef;
     background: #fff;
     cursor: default;
     overflow: auto;
@@ -18,7 +18,7 @@
 }
 
 .autocomplete-suggestions::-webkit-scrollbar-thumb {
-    background: #13769f;
+    background: #00aeef;
 }
 
 .autocomplete-suggestions::-webkit-scrollbar-thumb:hover {
@@ -45,7 +45,7 @@
 }
 
 .autocomplete-suggestions b {
-    color: #13769f;
+    color: #00aeef;
 }
 
 @media (max-width: 960px) {

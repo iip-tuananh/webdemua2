@@ -25,7 +25,7 @@
 }
 
 .container .main-content .menu-left .list li:hover a {
-    color: #13769f;
+    color: #00aeef;
 }
 
 .container .main-content .menu-left .list li a {
@@ -41,7 +41,7 @@
 }
 
 .container .main-content .menu-left .list .active a {
-    color: #13769f;
+    color: #00aeef;
 }
 
 .container .main-content .content-right .top {
@@ -105,7 +105,7 @@
     .main-content .content-right .top .see_more {
         display: block !important;
         padding: 10px;
-        color: #13769f;
+        color: #00aeef;
         font-weight: 500;
     }
     .main-content .content-right .content__ {

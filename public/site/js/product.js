@@ -571,7 +571,7 @@ async function loadPreOrder(data = null) {
 
             <div class="">
                 <span class="text-secondary-emphasis">Tổng thanh toán:</span>
-                <span class="pre-price fw-bold" style="color: #13769f;font-size: 30px;">
+                <span class="pre-price fw-bold" style="color: #00AEEF;font-size: 30px;">
                     ${formatMoney(order.amount)}
                 </span>
             </div>

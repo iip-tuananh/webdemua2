@@ -104,7 +104,7 @@
     border-radius: 4px;
 }
 .section-top .section-user-top {
-    background: #06a3e429;
+    background: #06a3e48029;
     padding: 20px;
 }
 .section-top .section-user-top img {
@@ -116,13 +116,13 @@
 .section-top .section-user-top .btn-guest {
     width: calc(100% - 0.5rem);
     background: transparent;
-    border: 1px solid #13769f;
-    color: #13769f;
+    border: 1px solid #00aeef;
+    color: #00aeef;
     border-radius: 4px;
 }
 .section-top .section-user-top .btn-guest.btn-login {
     color: #fff;
-    background: #13769f;
+    background: #00aeef;
 }
 .section-top .section-user-top .btn-guest.btn-logout {
     width: 80px;
@@ -144,7 +144,7 @@
     background: #fff;
     width: -moz-fit-content;
     width: fit-content;
-    color: #13769f;
+    color: #00aeef;
     font-size: 0.75rem;
     margin-bottom: 0;
 }
@@ -244,13 +244,13 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    background: #13769f;
+    background: #00aeef;
     height: 2px;
     width: 0;
     transition: 0.2s ease-in-out;
 }
 .section-top .section-user-bottom .section-user-btn.active {
-    color: #13769f;
+    color: #00aeef;
 }
 .section-top .section-user-bottom .section-user-btn.active::before {
     width: 24px;
@@ -275,7 +275,7 @@
     color: #757575;
 }
 .section-sale-tiktok .section-title a:hover {
-    color: #13769f;
+    color: #00aeef;
 }
 .section-sale-tiktok .section-sale-owl {
     gap: 20px 15px;
@@ -286,7 +286,7 @@
 .section-sale-tiktok .sale-item .item-img {
     width: 100%;
     height: 174px;
-    border: 2px solid #13769f;
+    border: 2px solid #00aeef;
     -o-object-fit: contain;
     object-fit: contain;
     border-radius: 4px;
@@ -307,7 +307,7 @@
 .section-sale-tiktok .sale-item .item-name {
     font-size: 16px;
     font-weight: 700;
-    color: #13769f;
+    color: #00aeef;
     margin-bottom: 10px;
     line-height: normal;
 }
@@ -334,7 +334,7 @@
     text-wrap: nowrap;
 }
 .section-sale-tiktok .sale-item .progress .progress-bar {
-    background: linear-gradient(270deg, #06a3e4 0%, #13769f 100%);
+    background: linear-gradient(270deg, #06a3e480 0%, #00aeef 100%);
     border-radius: 100px;
     height: 20px;
 }
@@ -418,7 +418,7 @@
     background: #dedede;
 }
 .section-sale-tiktok .owl-dots .owl-dot.active span {
-    background: #13769f;
+    background: #00aeef;
 }
 
 .section-slogan .section-item {
@@ -445,13 +445,13 @@
     font-size: 13px;
 }
 .section-product .categories a:hover {
-    color: #13769f;
-    border-color: #13769f;
+    color: #00aeef;
+    border-color: #00aeef;
 }
 .section-product .categories .active {
     color: #fff;
-    background: #13769f;
-    border-color: #13769f;
+    background: #00aeef;
+    border-color: #00aeef;
 }
 .section-product .categories .active:hover {
     color: #fff;
@@ -550,7 +550,7 @@
     font-size: 11px;
 }
 .item-tiktok .item-products .item .item-public {
-    color: #13769f;
+    color: #00aeef;
     font-size: 16px;
     font-weight: 500;
 }
@@ -739,6 +739,6 @@ css tết
     bottom: 0;
     width: 80px;
     height: 30px;
-    background: url("../images/icon-seller.svg") left no-repeat;
+    /* background: url("../images/icon-seller.svg") left no-repeat; */
     background-size: contain;
 } /*# sourceMappingURL=default.css.map */

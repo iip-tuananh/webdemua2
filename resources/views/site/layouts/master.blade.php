@@ -333,7 +333,7 @@
             </a>
         </div>
     </div> --}}
-    <div id="call-to-action-pc" class="hidden-xs">
+    <div id="call-to-action-pc">
         <div onclick="window.location.href= 'tel:{{ $config->hotline }}'" class="hotline-phone-ring-wrap">
             <div class="hotline-phone-ring">
                 <div class="hotline-phone-ring-circle"></div>

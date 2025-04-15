@@ -176,7 +176,7 @@
     }
 
     .hotline-phone-ring-wrap {
-        bottom: -2px;
+        bottom: 45px;
         right: -6px
     }
 }
@@ -333,19 +333,19 @@
 
 @media (max-width: 768px) {
     .fabs {
-        bottom: 110px;
+        bottom: 150px;
     }
     .inner-fabs .fabs {
-        bottom: 110px;
+        bottom: 150px;
     }
     .inner-fabs.show .fabs:first-child {
-        bottom: 170px;
+        bottom: 210px;
     }
     .inner-fabs.show .fabs:nth-child(2) {
-        bottom: 220px;
+        bottom: 260px;
     }
     .inner-fabs.show .fabs:nth-child(3) {
-        bottom: 270px;
+        bottom: 310px;
     }
     .totop {
         bottom: 110px;

@@ -48,11 +48,11 @@
     cursor: pointer;
 }
 .filter-group .form-check-input:checked {
-    border-color: #13769f;
-    background-color: #13769f;
+    border-color: #00aeef;
+    background-color: #00aeef;
 }
 .filter-group .filter-active {
-    color: #13769f;
+    color: #00aeef;
 }
 .filter-group .filter-title {
     font-weight: 700;
@@ -64,13 +64,13 @@
     color: #757575;
 }
 .filter-group .filter-more:hover {
-    color: #13769f;
+    color: #00aeef;
 }
 .filter-group .filter-item:hover {
-    color: #13769f;
+    color: #00aeef;
 }
 .filter-group .filter-item:hover .form-check-input {
-    border-color: #13769f;
+    border-color: #00aeef;
 }
 
 .owl-banner-item {
@@ -92,14 +92,14 @@
 }
 .owl-banner .owl-dots .owl-dot.active span {
     width: 24px !important;
-    background: #13769f !important;
+    background: #00aeef !important;
 }
 
 .section-filter-sort {
     color: #3b3b3b;
 }
 .section-filter-sort a.active {
-    color: #13769f;
+    color: #00aeef;
 }
 .section-filter-sort a.active::before {
     content: "";
@@ -107,7 +107,7 @@
     bottom: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: #13769f;
+    background: #00aeef;
     height: 2px;
     width: 24px;
     transition: 0.2s ease-in-out;

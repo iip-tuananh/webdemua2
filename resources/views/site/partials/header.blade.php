@@ -1,19 +1,20 @@
 <div class="header-top bg-white">
     <div class="container d-flex align-items-center justify-content-between">
-        <a href="tel:{{ str_replace(' ', '', $config->hotline)}}" class="d-flex align-items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+        <a href="tel:{{ str_replace(' ', '', $config->hotline) }}" class="d-flex align-items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M14.6467 12.22C14.6467 12.46 14.5933 12.7067 14.48 12.9467C14.3667 13.1867 14.22 13.4133 14.0267 13.6267C13.7 13.9867 13.34 14.2467 12.9333 14.4133C12.5333 14.58 12.1 14.6667 11.6333 14.6667C10.9533 14.6667 10.2267 14.5067 9.46 14.18C8.69334 13.8533 7.92667 13.4133 7.16667 12.86C6.4 12.3 5.67334 11.68 4.98 10.9933C4.29334 10.3 3.67334 9.57333 3.12 8.81333C2.57334 8.05333 2.13334 7.29333 1.81334 6.54C1.49334 5.78 1.33334 5.05333 1.33334 4.36C1.33334 3.90667 1.41334 3.47333 1.57334 3.07333C1.73334 2.66667 1.98667 2.29333 2.34 1.96C2.76667 1.54 3.23334 1.33333 3.72667 1.33333C3.91334 1.33333 4.1 1.37333 4.26667 1.45333C4.44 1.53333 4.59334 1.65333 4.71334 1.82667L6.26 4.00667C6.38 4.17333 6.46667 4.32667 6.52667 4.47333C6.58667 4.61333 6.62 4.75333 6.62 4.88C6.62 5.04 6.57334 5.2 6.48 5.35333C6.39334 5.50667 6.26667 5.66667 6.10667 5.82667L5.6 6.35333C5.52667 6.42667 5.49334 6.51333 5.49334 6.62C5.49334 6.67333 5.5 6.72 5.51334 6.77333C5.53334 6.82667 5.55334 6.86667 5.56667 6.90667C5.68667 7.12667 5.89334 7.41333 6.18667 7.76C6.48667 8.10667 6.80667 8.46 7.15334 8.81333C7.51334 9.16667 7.86 9.49333 8.21334 9.79333C8.56 10.0867 8.84667 10.2867 9.07334 10.4067C9.10667 10.42 9.14667 10.44 9.19334 10.46C9.24667 10.48 9.3 10.4867 9.36 10.4867C9.47334 10.4867 9.56 10.4467 9.63334 10.3733L10.14 9.87333C10.3067 9.70667 10.4667 9.58 10.62 9.5C10.7733 9.40667 10.9267 9.36 11.0933 9.36C11.22 9.36 11.3533 9.38667 11.5 9.44667C11.6467 9.50667 11.8 9.59333 11.9667 9.70667L14.1733 11.2733C14.3467 11.3933 14.4667 11.5333 14.54 11.7C14.6067 11.8667 14.6467 12.0333 14.6467 12.22Z"
                     stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" />
             </svg>
             <div>
-                Hotline: <b>{{ $config->hotline}}</b>
+                Hotline: <b>{{ $config->hotline }}</b>
             </div>
         </a>
         <div class="d-flex align-items-center gap-2">
-            <a href="{{ route('front.client-account') }}" class="btn-login" ng-if="!isAdminClient"><i class="fas fa-user"></i> Đăng nhập</a>
-            <a href="{{ route('front.logout-client') }}" class="btn-login" ng-if="isAdminClient"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+            <a href="{{ route('front.client-account') }}" class="btn-login" ng-if="!isAdminClient"><i
+                    class="fas fa-user"></i> Đăng nhập</a>
+            <a href="{{ route('front.logout-client') }}" class="btn-login" ng-if="isAdminClient"><i
+                    class="fas fa-sign-out-alt"></i> Đăng xuất</a>
             <span></span>
             <a href="{{ route('front.about-us') }}">Giới thiệu</a>
             <span></span>
@@ -58,20 +59,19 @@
 <header class="bg-white">
     <div class="container header-container d-flex align-items-center justify-content-between">
         <a href="{{ route('front.home-page') }}" title="muagimuadi.vn">
-            <img src="{{$config->image->path ?? ''}}" width="145" height="48.5"
-                alt="{{$config->web_title}}" class="img-fluid img-logo" loading="lazy">
+            <img src="{{ $config->image->path ?? '' }}" width="145" height="48.5" alt="{{ $config->web_title }}"
+                class="img-fluid img-logo" loading="lazy">
         </a>
         <div class="heder-center">
             <form action="{{ route('front.search') }}" id="site-search" method="GET"
                 class="position-relative d-flex align-items-center">
-                <input type="text" class="form-control" name="keyword"
-                    placeholder="Hôm nay bạn cần tìm gì?" required>
+                <input type="text" class="form-control" name="keyword" placeholder="Hôm nay bạn cần tìm gì?"
+                    required>
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M19.1777 18.3333L17.511 16.6667M18.3443 9.58333C18.3443 13.9556 14.7999 17.5 10.4277 17.5C6.0554 17.5 2.51099 13.9556 2.51099 9.58333C2.51099 5.21108 6.0554 1.66667 10.4277 1.66667C14.7999 1.66667 18.3443 5.21108 18.3443 9.58333Z"
-                        stroke="#A3A3A3" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
+                        stroke="#A3A3A3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <button class="btn fw-semibold" type="submit">Tìm kiếm</button>
             </form>
@@ -85,20 +85,25 @@
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M32.1973 28.5021L35.7527 19.5697C36.1743 18.5099 36.054 17.4068 35.4136 16.4629C34.7731 15.5191 33.7924 15 32.6525 15H11.5627H9.92425H4.82031C4.36735 15 4 15.3674 4 15.8203C4 16.2744 4.36735 16.6406 4.82031 16.6406H10.5777L15.2991 28.501C15.8149 29.7971 17.0047 30.6033 18.3983 30.6033H29.097C30.4917 30.6033 31.6815 29.7971 32.1962 28.501L32.1973 28.5021ZM18.3994 33.2539C19.7312 33.2539 20.8105 34.3332 20.8105 35.6639C20.8105 36.9957 19.7312 38.075 18.3994 38.075C17.0687 38.075 15.9894 36.9957 15.9894 35.6639C15.9894 34.3332 17.0687 33.2539 18.3994 33.2539ZM29.0981 33.2539C30.4299 33.2539 31.5092 34.3332 31.5092 35.6639C31.5092 36.9957 30.4299 38.075 29.0981 38.075C27.7663 38.075 26.687 36.9957 26.687 35.6639C26.687 34.3332 27.7663 33.2539 29.0981 33.2539Z"
-                        fill="#13769f" />
+                        fill="#00AEEF" />
                 </svg>
             </a>
             <div class="cart-hover">
                 <div class="cart-hover-header">Sản phẩm mới thêm</div>
                 <div class="cart-hover-body">
-                    <a ng-href="/san-pham/<% item.attributes.slug %>.html" class="cart-hover-item" ng-repeat="item in cart.items">
+                    <a ng-href="/san-pham/<% item.attributes.slug %>.html" class="cart-hover-item"
+                        ng-repeat="item in cart.items">
                         <img ng-src="<% item.attributes.image %>" alt="<% item.name %>" class="img-fluid">
                         <div>
-                        <div class="mb-1"><% item.name %> <span class="cart-text-quantity text-danger"> x <% item.quantity %></span></div>
-                        <div class="sub-name" ng-repeat="attribute in item.attributes.attributes">
-                            <span class="cart_attribute_name" style="margin-left: 8px; font-weight: 600; font-size: 14px;"><% attribute.name %> :</span>
-                            <span class="cart_attribute_value" style="font-size: 14px;"><% attribute.value %></span>
-                        </div>
+                            <div class="mb-1"><% item.name %> <span class="cart-text-quantity text-danger"> x
+                                    <% item.quantity %></span></div>
+                            <div class="sub-name" ng-repeat="attribute in item.attributes.attributes">
+                                <span class="cart_attribute_name"
+                                    style="margin-left: 8px; font-weight: 600; font-size: 14px;"><% attribute.name %>
+                                    :</span>
+                                <span class="cart_attribute_value"
+                                    style="font-size: 14px;"><% attribute.value %></span>
+                            </div>
                         </div>
                         <div class="item-price">
                             <% item.price | number %><sup>₫</sup>
@@ -116,19 +121,18 @@
 <div id="menu_mobile">
     <div class="menu_cat">
         @foreach ($productCategories as $item)
-        <a href="{{ route('front.show-product-category', $item->slug) }}" title="{{ $item->name }}"
-            class="ps-3 pe-3 d-flex align-items-center w-100 gap-2 position-relative">
-            @if (isset($item->image))
-            <img width="24" height="24"
-                src="{{ $item->image->path ?? '' }}"
-                alt="{{ $item->name }}" class="img-fluid object-fit-contain img-icon">
-            <img width="24" height="24"
-                src="{{ $item->image->path ?? '' }}"
-                alt="{{ $item->name }}" class="img-fluid object-fit-contain img-hover">
-            @else
-            <i class="fa-solid fa-square-minus gradient-icon"></i>
-            @endif
-            {{ $item->name }} </a>
+            <a href="{{ route('front.show-product-category', $item->slug) }}" title="{{ $item->name }}"
+                class="ps-3 pe-3 d-flex align-items-center w-100 gap-2 position-relative">
+                @if (isset($item->image))
+                    <img width="24" height="24" src="{{ $item->image->path ?? '' }}"
+                        alt="{{ $item->name }}" class="img-fluid object-fit-contain img-icon">
+                    <img width="24" height="24" src="{{ $item->image->path ?? '' }}"
+                        alt="{{ $item->name }}" class="img-fluid object-fit-contain img-hover">
+                @else
+                    <i class="fa-solid fa-square-minus gradient-icon"></i>
+                @endif
+                {{ $item->name }}
+            </a>
         @endforeach
     </div>
     <div class="member_menu">
