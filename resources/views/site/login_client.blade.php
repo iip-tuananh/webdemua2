@@ -39,13 +39,13 @@
         line-height: 24px;
         font-weight: 600;
         color: #fff;
-        background: linear-gradient(270deg, #d53c00 0%, #dd6333 100%);
+        background: linear-gradient(270deg, #13769f 0%, #06a3e4 100%);
         display: block;
         width: 100%;
         margin-bottom: 16px;
     }
     .page-login .btn-style:hover {
-        background: linear-gradient(270deg, #d53c00 0%, #dd6333 100%);
+        background: linear-gradient(270deg, #13769f 0%, #06a3e4 100%);
     }
 </style>
 @endsection
