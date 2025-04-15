@@ -3458,7 +3458,7 @@
                 data.items = $scope.cart;
                 data.total = $scope.total;
                 data.point_value = $scope.pointValue;
-                data.point = $scope.pointInput;
+                data.point = $scope.pointInput || 0;
 
                 $scope.errors = {};
                 $.ajax({
