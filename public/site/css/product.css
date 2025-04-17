@@ -983,6 +983,7 @@
         display: none;
     }
     .section-grid {
+        display: block;
         grid-template-columns: 1fr;
     }
     .section-more-products .section-more .layout-product-item,

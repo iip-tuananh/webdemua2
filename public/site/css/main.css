@@ -992,7 +992,7 @@ footer .footer-bottom {
         top: 70px;
         width: 100%;
         height: calc(100vh - 135px);
-        background: #eeeeee;
+        background: #ffff;
         border-bottom: solid 1px #333333;
         overflow-y: auto;
         overflow-x: hidden;
@@ -1001,6 +1001,7 @@ footer .footer-bottom {
     #menu_mobile .menu_cat a {
         padding: 20px;
         font-size: 16px;
+        border-bottom: 1px solid #ccc;
     }
     #menu_mobile .menu_cat a .img-hover {
         display: none;
