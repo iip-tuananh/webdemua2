@@ -1003,6 +1003,10 @@ footer .footer-bottom {
         font-size: 16px;
         border-bottom: 1px solid #ccc;
     }
+    #menu_mobile .menu_cat a:hover {
+        background: #00aeef;
+        color: #fff;
+    }
     #menu_mobile .menu_cat a .img-hover {
         display: none;
     }

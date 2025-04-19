@@ -37,7 +37,8 @@
     padding-bottom: 5px;
 }
 .section-top .section-menu a:hover {
-    background: #fbece6;
+    background: #00AEED;
+    color: #fff;
 }
 .section-top .section-menu a:hover .img-icon {
     opacity: 0;
