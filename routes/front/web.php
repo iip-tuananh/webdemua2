@@ -44,7 +44,8 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get('/danh-muc/{categorySlug}.html','FrontController@showProductCategory')->name('front.show-product-category');
     Route::get('/load-more/product','FrontController@loadMoreProduct')->name('front.product-load-more');
     Route::get('/get-product-quick-view','FrontController@getProductQuickView')->name('front.get-product-quick-view');
-
+    Route::get('/filter-product','FrontController@filterProduct')->name('front.filter-product');
+    
     // giỏ hàng
     // Route::middleware('auth:client')->group(function () {
         Route::post('/{productId}/add-product-to-cart','CartController@addItem')->name('cart.add.item');

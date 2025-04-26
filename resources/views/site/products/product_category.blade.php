@@ -6,7 +6,7 @@
     {{ $short_des }}
 @endsection
 @section('css')
-<link rel="stylesheet" type="text/css" media="screen" href="/site/css/category.css?v=1.74" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/site/css/category.css?v=1.74" />
 @endsection
 
 @section('content')
@@ -32,8 +32,7 @@
                     </li>
                 </ol>
             </nav>
-            <form
-                class="page-products-category d-flex flex-wrap">
+            <form class="page-products-category d-flex flex-wrap" ng-controller="ProductCategoryController">
                 <div class="section-filter">
                     <a class="button_filter">
                         <span>Bộ lọc</span>
@@ -42,11 +41,12 @@
                     <div class="section-item bg-white ">
                         <div class="filter-group">
                             <div class="filter-title">{{ $title }}</div>
-                            @if (isset($category))
+                            @if (isset($category) && isset($category->childs) && count($category->childs) > 0)
                                 @foreach ($category->childs as $child)
                                     <div class="filter-item pt-1 pb-1">
                                         <a class="filter-action d-inline-block "
-                                            href="{{ route('front.show-product-category', $child->slug) }}" title="{{ $child->name }}">
+                                            href="{{ route('front.show-product-category', $child->slug) }}"
+                                            title="{{ $child->name }}">
                                             {{ $child->name }} </a>
                                     </div>
                                 @endforeach
@@ -54,52 +54,24 @@
                         </div>
                         <div class="filter-group">
                             <div class="filter-title">Giá</div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox" value="0:200000"
-                                    id="price13">
-                                <label class="form-check-label" for="price13">
-                                    Dưới 200k </label>
-                            </div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox"
-                                    value="200000:350000" id="price14">
-                                <label class="form-check-label" for="price14">
-                                    Từ 200k đến 350k </label>
-                            </div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox"
-                                    value="350000:500000" id="price15">
-                                <label class="form-check-label" for="price15">
-                                    Từ 350k đến 500k </label>
-                            </div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox"
-                                    value="500000:800000" id="price16">
-                                <label class="form-check-label" for="price16">
-                                    Từ 500k đến 800k </label>
-                            </div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox"
-                                    value="800000:1000000" id="price17">
-                                <label class="form-check-label" for="price17">
-                                    Từ 800k đến 1 triệu </label>
-                            </div>
-                            <div class="form-check filter-item pt-1 pb-1 mb-0">
-                                <input class="form-check-input filter-check" filter="price" type="checkbox"
-                                    value="1000000:100000000" id="price18">
-                                <label class="form-check-label" for="price18">
-                                    Trên 1 triệu </label>
+                            <div class="form-check filter-item pt-1 pb-1 mb-0" ng-repeat="price in priceRanges">
+                                <input class="form-check-input filter-check" type="checkbox" id="<% price.id %>"
+                                    ng-model="price.checked" ng-change="onChangeFilterPrice()">
+                                <label class="form-check-label" for="<% price.id %>">
+                                    <% price.label %>
+                                </label>
                             </div>
                         </div>
                         <div class="filter-group">
                             <div class="filter-title">Loại sản phẩm</div>
                             @foreach ($categories as $cate)
-                            <div class="form-check filter-item pt-1 pb-1 mb-0 ">
-                                <input class="form-check-input filter-check" filter="filter" type="checkbox"
-                                    value="{{ $cate->id }}" id="filter{{ $cate->id }}">
-                                <label class="form-check-label" for="filter{{ $cate->id }}">
-                                    {{ $cate->name }} </label>
-                            </div>
+                                <div class="form-check filter-item pt-1 pb-1 mb-0 ">
+                                    <input class="form-check-input filter-check" filter="filter" type="checkbox"
+                                        value="{{ $cate->id }}" id="filter{{ $cate->id }}"
+                                        ng-click="filterCategory('{{ $cate->slug }}')">
+                                    <label class="form-check-label" for="filter{{ $cate->id }}">
+                                        {{ $cate->name }} </label>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -111,18 +83,25 @@
                         </div>
                     </div>
                     <div class="section-item section-padding bg-white section-filter-sort d-flex align-items-center gap-4">
-                        <a class="filter-sort position-relative active" data="0">
+                        <a class="filter-sort position-relative " ng-class="{'active': filter_sort == 'asc'}"
+                            ng-click="filterSort('asc')">
                             Phổ biến </a>
-                        <a class="filter-sort position-relative " data="1">
+                        <a class="filter-sort position-relative " ng-class="{'active': filter_sort == 'desc'}"
+                            ng-click="filterSort('desc')">
                             Hàng mới </a>
-                        <a class="filter-sort position-relative " data="2">
+                        <a class="filter-sort position-relative " ng-class="{'active': filter_sort == 'priceAsc'}"
+                            ng-click="filterSort('priceAsc')">
                             Giá từ thấp đến cao </a>
-                        <a class="filter-sort position-relative " data="3">
+                        <a class="filter-sort position-relative " ng-class="{'active': filter_sort == 'priceDesc'}"
+                            ng-click="filterSort('priceDesc')">
                             Giá từ cao đến thấp </a>
                     </div>
-                    <div class="section-item section-products d-flex flex-wrap">
+                    <div class="section-item section-products d-flex flex-wrap" id="product-list">
                         @foreach ($products as $product)
-                            @include('site.products.product_item', ['product' => $product, 'vouchers' => $vouchers])
+                            @include('site.products.product_item', [
+                                'product' => $product,
+                                'vouchers' => $vouchers,
+                            ])
                         @endforeach
                         <div class="w-100 d-flex justify-content-center">
                             {{ $products->links() }}
@@ -135,4 +114,91 @@
 @endsection
 
 @push('script')
+    <script>
+        app.controller('ProductCategoryController', function($scope, $http) {
+            $scope.category = @json($category);
+            $scope.filter_sort = 'asc';
+            $scope.filterSort = function(sort) {
+                $scope.filter_sort = sort;
+                $scope.filter();
+            }
+
+            $scope.filter_price = [];
+
+            $scope.priceRanges = [{
+                    id: 'price13',
+                    value: '0:200000',
+                    label: 'Dưới 200k',
+                    checked: false
+                },
+                {
+                    id: 'price14',
+                    value: '200000:350000',
+                    label: 'Từ 200k đến 350k',
+                    checked: false
+                },
+                {
+                    id: 'price15',
+                    value: '350000:500000',
+                    label: 'Từ 350k đến 500k',
+                    checked: false
+                },
+                {
+                    id: 'price16',
+                    value: '500000:800000',
+                    label: 'Từ 500k đến 800k',
+                    checked: false
+                },
+                {
+                    id: 'price17',
+                    value: '800000:1000000',
+                    label: 'Từ 800k đến 1 triệu',
+                    checked: false
+                },
+                {
+                    id: 'price18',
+                    value: '1000000:100000000',
+                    label: 'Trên 1 triệu',
+                    checked: false
+                }
+            ];
+
+            $scope.onChangeFilterPrice = function() {
+                $scope.filter_price = $scope.priceRanges
+                    .filter(function(item) {
+                        return item.checked;
+                    })
+                    .map(function(item) {
+                        return item.value;
+                    });
+
+                $scope.filter();
+            };
+
+            $scope.filter = function() {
+                $.ajax({
+                    url: '{{ route('front.filter-product') }}',
+                    type: 'GET',
+                    data: {
+                        sort: $scope.filter_sort,
+                        category: $scope.category.id,
+                        cate_slug: $scope.category.slug,
+                        price: $scope.filter_price
+                    },
+                    success: function(response) {
+                        $('#product-list').html(response.html);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    },
+                    complete: function() {}
+                });
+            }
+
+            $scope.filterCategory = function(slug) {
+                url = '{{ route('front.show-product-category', ['categorySlug' => ':categorySlug']) }}'.replace(':categorySlug', slug);
+                window.location.href = url;
+            }
+        });
+    </script>
 @endpush

@@ -42,36 +42,37 @@ class FrontController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function homePage() {
+    public function homePage()
+    {
         $data['banners'] = Banner::with(['image'])->where('position', 1)->get();
         $data['reviews'] = Review::query()->orderBy('id', 'desc')->get();
         $data['smallBanner'] = Banner::with(['image'])->where('position', 2)->orderBy('id', 'desc')->first();
         $data['partners'] = Partner::with(['image'])->limit(3)->get();
-        $data['newProducts'] = Product::with(['image'])->where('status', 1)->limit(6)->orderBy('id','DESC')->inRandomOrder()->get();
+        $data['newProducts'] = Product::with(['image'])->where('status', 1)->limit(6)->orderBy('id', 'DESC')->inRandomOrder()->get();
         $data['categorySpecialPost'] = CategorySpecial::query()->with([
-                'posts' => function($q) {
-                    $q->where('status', 1);
-                }
-            ])
+            'posts' => function ($q) {
+                $q->where('status', 1);
+            }
+        ])
             ->has('posts')
-            ->where('type',20)
+            ->where('type', 20)
             ->where('show_home_page', 1)
             ->orderBy('order_number')->get();
         $data['categorySpecial'] = CategorySpecial::query()->with([
-                'products' => function($q) {
-                    $q->with([
-                        'product_rates' => function($q) {
-                            $q->where('status', 2);
-                        }
-                    ])->where('status', 1)->inRandomOrder();
-                }
-            ])
+            'products' => function ($q) {
+                $q->with([
+                    'product_rates' => function ($q) {
+                        $q->where('status', 2);
+                    }
+                ])->where('status', 1)->inRandomOrder();
+            }
+        ])
             ->has('products')
-            ->where('type',10)
+            ->where('type', 10)
             ->where('show_home_page', 1)
             ->where('order_number', '!=', 1)
             ->orderBy('order_number')->get()->map(function ($query) {
-                $query->setRelation('products', $query->products->where('status',1)->take(40));
+                $query->setRelation('products', $query->products->where('status', 1)->take(40));
                 return $query;
             });
 
@@ -90,10 +91,10 @@ class FrontController extends Controller
                 }
             ])
             ->first();
-        $data['newBlogs'] = Post::with(['image'])->where(['status'=>1])
-        ->orderBy('id','DESC')
-        ->select(['id','name','slug','intro','created_at'])
-        ->limit(10)->get();
+        $data['newBlogs'] = Post::with(['image'])->where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'slug', 'intro', 'created_at'])
+            ->limit(10)->get();
 
         $data['productCategories'] = Category::query()->where('show_home_page', 1)->orderBy('sort_order')->get();
         $data['vouchers'] = Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->orderBy('created_at', 'desc')->get();
@@ -105,7 +106,7 @@ class FrontController extends Controller
         $data['new_orders'] = 0;
         $data['pending_orders'] = 0;
         $data['success_orders'] = 0;
-        if(\Auth::guard('client')->check()) {
+        if (\Auth::guard('client')->check()) {
             $data['user'] = \App\Model\Common\User::with(['image'])->where('id', \Auth::guard('client')->user()->id)->select(['id', 'name'])->first();
             $data['new_orders'] = Order::query()->where('customer_email', \Auth::guard('client')->user()->email)->orderBy('id', 'desc')->where('status', Order::MOI)->get()->count();
             $data['pending_orders'] = Order::query()->where('customer_email', \Auth::guard('client')->user()->email)->orderBy('id', 'desc')->where('status', Order::DUYET)->get()->count();
@@ -121,10 +122,10 @@ class FrontController extends Controller
         $category = CategorySpecial::findBySlug($request->handle);
         $products = $category->products()->with([
             'image', 'galleries',
-            'product_rates' => function($q) {
+            'product_rates' => function ($q) {
                 $q->where('status', 2);
             }
-            ])->where('status', 1)->limit(10)->orderBy('created_at', 'desc')->get();
+        ])->where('status', 1)->limit(10)->orderBy('created_at', 'desc')->get();
         $html = '';
         foreach ($products as $product) {
             $html .= view('site.partials.item_product', compact('product', 'category'))->render();
@@ -140,7 +141,7 @@ class FrontController extends Controller
     {
         // $product = Product::findBySlug($request->handle);
         $product = Product::with([
-            'product_rates' => function($q) {
+            'product_rates' => function ($q) {
                 $q->where('status', 2);
             }
         ])->where('id', $request->product_id)->first();
@@ -149,16 +150,16 @@ class FrontController extends Controller
         return Response::json([
             'html' => $html,
         ]);
-
     }
 
-    public function showProductDetail($slug) {
+    public function showProductDetail($slug)
+    {
         try {
             $categories = Category::getAllCategory();
             $product = Product::findSlug($slug);
             $attributes = [];
             foreach ($product->attributeValues as $attribute) {
-                if(!isset($attributes[$attribute->id])) {
+                if (!isset($attributes[$attribute->id])) {
                     $attributes[$attribute->id] = [
                         'name' => $attribute->name,
                         'values' => [$attribute->pivot->value]
@@ -171,13 +172,13 @@ class FrontController extends Controller
 
             // sản phẩm tương tự
             $productsRelated = $product->category->products()->with([
-                'product_rates' => function($q) {
+                'product_rates' => function ($q) {
                     $q->where('status', 2);
                 }
             ])->whereNotIn('id', [$product->id])->orderBy('created_at', 'desc')->get();
 
             $bestSellerProducts = Product::query()->with([
-                'product_rates' => function($q) {
+                'product_rates' => function ($q) {
                     $q->where('status', 2);
                 }
             ])->where('status', 1)->inRandomOrder()->limit(6)->get();
@@ -192,12 +193,12 @@ class FrontController extends Controller
             }
 
             $canReview = false;
-            if(\Auth::guard('client')->check()) {
+            if (\Auth::guard('client')->check()) {
                 $existsOrder = OrderDetail::where('product_id', $product->id)
-                ->leftJoin('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.customer_email', \Auth::guard('client')->user()->email)
-                ->where('orders.status', Order::THANH_CONG)->exists();
-                if($existsOrder) {
+                    ->leftJoin('orders', 'order_details.order_id', '=', 'orders.id')
+                    ->where('orders.customer_email', \Auth::guard('client')->user()->email)
+                    ->where('orders.status', Order::THANH_CONG)->exists();
+                if ($existsOrder) {
                     $canReview = true;
                 }
             }
@@ -205,7 +206,7 @@ class FrontController extends Controller
 
 
             return view('site.products.product_detail', compact('categories', 'product', 'productsRelated', 'category', 'arr_product_rate_images', 'bestSellerProducts', 'canReview', 'vouchers'));
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return view('site.errors');
             Log::error($exception);
         }
@@ -217,7 +218,7 @@ class FrontController extends Controller
         $categories = Category::parent()->with('products')->orderBy('sort_order')->get();
         $category = Category::with(['childs'])->where('slug', $categorySlug)->first();
         $sort = $request->get('sort') ?: 'lasted';
-        if($category) {
+        if ($category) {
             $category_parent_id = $category->parent ? $category->parent->id : null;
             $arr_category_id = array_merge($category->childs->pluck('id')->toArray(), [$category->id, $category_parent_id]);
             if ($category->childs) {
@@ -227,14 +228,14 @@ class FrontController extends Controller
             }
 
             $products = Product::with([
-                'product_rates' => function($q) {
+                'product_rates' => function ($q) {
                     $q->where('status', 2);
                 }
             ])->where('status', 1)->whereIn('cate_id', $arr_category_id)->orderBy('created_at', 'desc')->paginate(20);
         } else {
             $category = CategorySpecial::findBySlug($categorySlug);
             $products = $category->products()->with([
-                'product_rates' => function($q) {
+                'product_rates' => function ($q) {
                     $q->where('status', 2);
                 }
             ])->where('status', 1)->orderBy('created_at', 'desc')->paginate(20);
@@ -244,18 +245,67 @@ class FrontController extends Controller
         $short_des = $category->short_des;
         $title_sub = $category->name;
 
-        $categorySpecial = CategorySpecial::query()->with(['products' => function($q) {$q->where('status', 1)->limit(5);}])
+        $categorySpecial = CategorySpecial::query()->with(['products' => function ($q) {
+            $q->where('status', 1)->limit(5);
+        }])
             ->has('products')
-            ->where('type',10)
+            ->where('type', 10)
             ->where('show_home_page', 1)
             ->orderBy('order_number')->get();
 
         $vouchers = Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->orderBy('created_at', 'desc')->get();
-        if(! $category) {
+        if (!$category) {
             return view('site.errors');
         }
 
         return view('site.products.product_category', compact('categories', 'category', 'sort', 'categorySpecial', 'products', 'title', 'short_des', 'title_sub', 'vouchers'));
+    }
+
+    public function filterProduct(Request $request)
+    {
+        $products = Product::query()->where('status', 1);
+        if (!empty($request->sort)) {
+            if ($request->sort == 'asc') {
+                $products->orderBy('created_at', 'desc');
+            } else if ($request->sort == 'desc') {
+                $products->orderBy('created_at', 'asc');
+            } else if ($request->sort == 'priceAsc') {
+                $products->orderBy('price', 'asc');
+            } else if ($request->sort == 'priceDesc') {
+                $products->orderBy('price', 'desc');
+            }
+        }
+        if (!empty($request->price)) {
+            $products->where(function ($query) use ($request) {
+                foreach ($request->price as $price) {
+                    $price = explode(':', $price);
+                    $query->orWhere(function ($query) use ($price) {
+                        $query->where('price', '>=', $price[0])->where('price', '<=', $price[1]);
+                    });
+                }
+            });
+        }
+        if (!empty($request->category) && !empty($request->cate_slug)) {
+            $category = Category::query()->where('id', $request->category)->orWhere('slug', $request->cate_slug)->first();
+            $category_special = CategorySpecial::query()->where('type', 10)->where('show_home_page', 1)->where('id', $request->category)->orWhere('slug', $request->cate_slug)->first();
+            if ($category_special) {
+                $products->whereIn('id', $category_special->products()->pluck('products.id')->toArray());
+            } else {
+                $category_parent_id = $category->parent ? $category->parent->id : null;
+                $arr_category_id = array_merge($category->childs->pluck('id')->toArray(), [$category->id, $category_parent_id]);
+                if ($category->childs) {
+                    foreach ($category->childs as $child) {
+                        $arr_category_id = array_merge($arr_category_id, $child->childs->pluck('id')->toArray());
+                    }
+                }
+                $products->whereIn('cate_id', $arr_category_id);
+            }
+        }
+        $products = $products->paginate(20);
+        $html = view('site.partials.filter_product', compact('products'))->render();
+        return Response::json([
+            'html' => $html,
+        ]);
     }
 
     public function loadMoreProduct(Request $request)
@@ -273,12 +323,12 @@ class FrontController extends Controller
                 $products->orderBy('price', 'desc');
             }
         } else {
-             $products->orderBy('created_at', 'desc');
+            $products->orderBy('created_at', 'desc');
         }
 
         $product_all_ids = $category->products()->pluck('id')->toArray();
 
-        if( $request->product_ids_load_more) {
+        if ($request->product_ids_load_more) {
             $products->whereIn('id', array_diff($product_all_ids, $request->product_ids_load_more));
         }
 
@@ -293,10 +343,10 @@ class FrontController extends Controller
 
         $hasProductsNextPage = false;
 
-        if($product_ids && Product::query()->whereNotIn('id', $product_ids_)->count()) $hasProductsNextPage = true;
+        if ($product_ids && Product::query()->whereNotIn('id', $product_ids_)->count()) $hasProductsNextPage = true;
 
         foreach ($products as $product) {
-            $html .= view( 'site.partials.card_product', compact('product', 'category'))->render();
+            $html .= view('site.partials.card_product', compact('product', 'category'))->render();
         }
 
 
@@ -305,7 +355,6 @@ class FrontController extends Controller
             'product_ids' => $product_ids,
             'hasProductsNextPage' => $hasProductsNextPage,
         ]);
-
     }
 
 
@@ -370,40 +419,40 @@ class FrontController extends Controller
     public function listBlog(Request $request, $slug)
     {
         $category = PostCategory::where('slug', $slug)->first();
-        $data['blogs'] = Post::with(['image'])->where(['status'=>1,'cate_id'=>$category->id])
-            ->orderBy('id','DESC')
-            ->select(['id','name','intro','created_at','slug'])
+        $data['blogs'] = Post::with(['image'])->where(['status' => 1, 'cate_id' => $category->id])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'intro', 'created_at', 'slug'])
             ->paginate(99999);
 
         $data['cate_title'] = $category->name;
         $data['categories'] = PostCategory::with([
-            'posts' => function ($query){
-                $query->where(['status'=>1])->get();
+            'posts' => function ($query) {
+                $query->where(['status' => 1])->get();
             }
         ])->where(['parent_id' => 0, 'show_home_page' => 1])->latest()->get();
-        $data['newBlogs'] = Post::with(['image'])->where(['status'=>1])
-            ->orderBy('id','DESC')
-            ->select(['id','name','slug', 'created_at'])
+        $data['newBlogs'] = Post::with(['image'])->where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'slug', 'created_at'])
             ->limit(6)->get();
         return view('site.blogs.list', $data);
     }
 
     public function indexBlog(Request $request)
     {
-        $data['blogs'] = Post::with(['image', 'category'])->where(['status'=>1])
-            ->orderBy('id','DESC')
-            ->select(['id','name','intro','created_at','slug', 'cate_id'])
+        $data['blogs'] = Post::with(['image', 'category'])->where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'intro', 'created_at', 'slug', 'cate_id'])
             ->paginate(6);
 
         $data['cate_title'] = 'Tin tức';
         $data['categories'] = PostCategory::with([
-            'posts' => function ($query){
-                $query->where(['status'=>1])->get();
+            'posts' => function ($query) {
+                $query->where(['status' => 1])->get();
             }
         ])->where(['parent_id' => 0, 'show_home_page' => 1])->latest()->get();
-        $data['newBlogs'] = Post::with(['image'])->where(['status'=>1])
-            ->orderBy('id','DESC')
-            ->select(['id','name','slug', 'created_at'])
+        $data['newBlogs'] = Post::with(['image'])->where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'slug', 'created_at'])
             ->limit(6)->get();
 
         return view('site.blogs.list', $data);
@@ -413,21 +462,21 @@ class FrontController extends Controller
     {
         $blog = Post::with(['image', 'user_create'])->where('slug', $slug)->first();
         $category = PostCategory::where('id', $blog->cate_id)->first();
-        $data['other_blogs'] = Post::with(['image'])->where(['status'=>1,'cate_id'=>$blog->cate_id])
-        ->where('id', '!=', $blog->id)
-        ->select(['id','name','intro','created_at','slug', 'cate_id'])
-        ->limit(16)->inRandomOrder()->get();
+        $data['other_blogs'] = Post::with(['image'])->where(['status' => 1, 'cate_id' => $blog->cate_id])
+            ->where('id', '!=', $blog->id)
+            ->select(['id', 'name', 'intro', 'created_at', 'slug', 'cate_id'])
+            ->limit(16)->inRandomOrder()->get();
         $data['blog_title'] = $blog->name;
         $data['blog_des'] = $blog->intro;
         $data['categories'] = PostCategory::with([
-            'posts' => function ($query){
-                $query->where(['status'=>1])->get();
+            'posts' => function ($query) {
+                $query->where(['status' => 1])->get();
             }
         ])->where(['parent_id' => 0, 'show_home_page' => 1])->latest()->get();
-        $data['newBlogs'] = Post::with(['image'])->where(['status'=>1])
-        ->orderBy('id','DESC')
-        ->select(['id','name','slug', 'created_at'])
-        ->limit(6)->get();
+        $data['newBlogs'] = Post::with(['image'])->where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->select(['id', 'name', 'slug', 'created_at'])
+            ->limit(6)->get();
         $data['blog'] = $blog;
         $data['blog_slug'] = $blog->slug;
         $data['cate_title'] = $category->name;
@@ -440,38 +489,40 @@ class FrontController extends Controller
     public function autoSearchComplete(Request $request)
     {
         if (isset($request->keyword)) {
-            $products = Product::with(['image'])->where('name','LIKE','%'.$request->keyword.'%')->where('status', 1)->orderBy('id','DESC')->limit(10)->get();
-            $view = view("site.partials.ajax_search_results",compact('products'))->render();
+            $products = Product::with(['image'])->where('name', 'LIKE', '%' . $request->keyword . '%')->where('status', 1)->orderBy('id', 'DESC')->limit(10)->get();
+            $view = view("site.partials.ajax_search_results", compact('products'))->render();
         } else {
             $view = '';
         }
 
         return Response::json([
-            'html'=>$view
+            'html' => $view
         ]);
     }
 
-    public function resetData() {
-        \Illuminate\Support\Facades\DB::table('orders')->truncate();
-        \Illuminate\Support\Facades\DB::table('contacts')->truncate();
-    }
+    // public function resetData() {
+    //     \Illuminate\Support\Facades\DB::table('orders')->truncate();
+    //     \Illuminate\Support\Facades\DB::table('contacts')->truncate();
+    // }
 
     // laster buy products
-    public function lasterBuyProducts() {
+    public function lasterBuyProducts()
+    {
         $product = \DB::table('products')
-        ->where('status', 1)
-        ->leftJoin('files', function($join) {
-            $join->on('files.model_id', '=', 'products.id')
-            ->where('files.custom_field', 'image')->where('files.model_type', Product::class);
-        })
-        ->inRandomOrder()->first(['products.id', 'products.name', 'products.slug', 'files.path']);
+            ->where('status', 1)
+            ->leftJoin('files', function ($join) {
+                $join->on('files.model_id', '=', 'products.id')
+                    ->where('files.custom_field', 'image')->where('files.model_type', Product::class);
+            })
+            ->inRandomOrder()->first(['products.id', 'products.name', 'products.slug', 'files.path']);
         return Response::json([
             'product' => $product,
         ]);
     }
 
     // review
-    public function submitReview(Request $request) {
+    public function submitReview(Request $request)
+    {
         $rule  =  [
             'name' => 'required',
             'email'  => 'required|email|max:255|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
@@ -526,30 +577,31 @@ class FrontController extends Controller
             'desc' => $request->desc,
         ];
 
-		DB::beginTransaction();
-		try {
-			$object = new ProductRate();
-			$object->fill($store_data);
-			$object->save();
+        DB::beginTransaction();
+        try {
+            $object = new ProductRate();
+            $object->fill($store_data);
+            $object->save();
 
             $galleries = $request->galleries;
-			foreach ($galleries as $gallery) {
+            foreach ($galleries as $gallery) {
                 if (isset($gallery['image'])) {
                     $file = $gallery['image'];
                     FileHelper::uploadFile($file, 'product_rate', $object->id, ProductRate::class, 'image', 1);
                 }
             }
 
-			DB::commit();
-			return $this->responseSuccess('Gửi đánh giá thành công!');
-		} catch (Exception $e) {
+            DB::commit();
+            return $this->responseSuccess('Gửi đánh giá thành công!');
+        } catch (Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());
         }
     }
 
     // Tìm kiếm trang list product
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $query = Product::query()->where('status', 1);
         if (!empty($request->keyword)) {
             $query->where('name', 'like', '%' . $request->keyword . '%');
@@ -564,12 +616,13 @@ class FrontController extends Controller
         $products = $query->paginate(20);
         $title = 'Tìm kiếm';
         $short_des = 'Kết quả tìm kiếm';
-        $title_sub = 'Tìm thấy '.count($products).' kết quả phù hợp';
+        $title_sub = 'Tìm thấy ' . count($products) . ' kết quả phù hợp';
         return view('site.products.product_category', compact('products', 'title', 'short_des', 'title_sub', 'categories', 'vouchers'));
     }
 
     // Chính sách
-    public function policyDetail($slug) {
+    public function policyDetail($slug)
+    {
         $policy = Policy::where('slug', $slug)->first();
         $policies = Policy::query()->where('status', true)->latest()->get();
         $title = $policy->title;
