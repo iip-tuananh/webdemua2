@@ -2633,9 +2633,13 @@
                                             <span>Xem thêm mã giảm giá</span>
                                         </div>
                                         <div id="list_short_coupon">
-                                            <span ng-repeat="voucher in vouchers">
+                                            {{-- <span ng-repeat="voucher in vouchers">
                                                 <span data-code="<% voucher.code %>"><% voucher.name %></span>
-                                            </span>
+                                            </span> --}}
+                                            <div class="item-info item-voucher" ng-repeat="voucher in vouchers" style="display: flex; align-items: center; gap: 3px; padding: 0px; border-radius: 5px; background-color: #fff6a2; color: #06a3e480; cursor: pointer; margin-right: 10px; height: 35px; font-weight: 600;">
+                                                <img src="/site/images/voucher.svg" alt="voucher" width="30" height="30"/>
+                                                <% voucher.name %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2790,9 +2794,13 @@
                                             <span>Xem thêm mã giảm giá</span>
                                         </div>
                                         <div id="list_short_coupon">
-                                            <span ng-repeat="voucher in vouchers">
+                                            {{-- <span ng-repeat="voucher in vouchers">
                                                 <span data-code="<% voucher.code %>"><% voucher.name %></span>
-                                            </span>
+                                            </span> --}}
+                                            <div class="item-info item-voucher" ng-repeat="voucher in vouchers" style="display: flex; align-items: center; gap: 3px; padding: 0px; border-radius: 5px; background-color: #fff6a2; color: #06a3e480; cursor: pointer; margin-right: 10px; height: 35px; font-weight: 600;">
+                                                <img src="/site/images/voucher.svg" alt="voucher" width="30" height="30"/>
+                                                <% voucher.name %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

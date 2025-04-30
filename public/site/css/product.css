@@ -242,14 +242,14 @@
 }
 .section-main .add-cart {
     color: #fff;
-    background: #00aeef;
-    border: 1px solid #00aeef;
+    background: #ddce6d;
+    border: 1px solid #ddce6d;
     width: 50%;
 }
 .section-main .buy-now {
-    color: #00aeef;
+    color: #fff;
     border: 1px solid #00aeef;
-    background: #fff;
+    background: #00aeef;
     width: 50%;
 }
 .section-main .add-like {
@@ -454,10 +454,10 @@
 .section-description .description-main img {
     max-width: 100% !important;
     display: block;
-    margin-right: auto;
-    margin-left: auto;
-    width: auto !important;
-    height: auto !important;
+    /* margin-right: auto;
+    margin-left: auto; */
+    /* width: auto !important;
+    height: auto !important; */
 }
 .section-description .description-main video,
 .section-description .description-main iframe {

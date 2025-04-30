@@ -77,7 +77,7 @@
             </form>
         </div>
         <div class="header-right d-flex align-items-center justify-content-end">
-            <a href="{{ route('cart.index') }}" title="Giỏ hàng" class="header-cart position-relative">
+            <a href="javascript:void(0)" title="Giỏ hàng" class="header-cart position-relative">
                 <div
                     class="cart-quantity cart-text-quantity position-absolute d-flex align-items-center justify-content-center fw-bold">
                     <% cart.count || 0 %></div>

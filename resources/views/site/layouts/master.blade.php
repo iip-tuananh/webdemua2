@@ -33,7 +33,6 @@
     <script>
         app.controller('AppController', function($rootScope, $scope, cartItemSync, $interval, $compile){
             $scope.currentUser = @json(Auth::guard('client')->user());
-            console.log($scope.currentUser);
             $scope.isAdminClient = @json(Auth::guard('client')->check());
             // $scope.showMenuAdminClient = localStorage.getItem('showMenuAdminClient') ? localStorage.getItem('showMenuAdminClient') : false;
 

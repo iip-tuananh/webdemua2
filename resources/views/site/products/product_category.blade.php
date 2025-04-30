@@ -116,7 +116,7 @@
 @push('script')
     <script>
         app.controller('ProductCategoryController', function($scope, $http) {
-            $scope.category = @json($category);
+            $scope.category = @json($category ?? null);
             $scope.filter_sort = 'asc';
             $scope.filterSort = function(sort) {
                 $scope.filter_sort = sort;

@@ -10,9 +10,9 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" type="text/css" media="screen" href="/site/css/slick.css?v=1.74" />
-<link rel="stylesheet" type="text/css" media="screen" href="/site/css/select2.min.css?v=1.74" />
-<link rel="stylesheet" type="text/css" media="screen" href="/site/css/product.css?v=1.74" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/site/css/slick.css?v=1.74" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/site/css/select2.min.css?v=1.74" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/site/css/product.css?v=1.74" />
     <style>
         .text-limit-3-line {
             line-height: 1.5;
@@ -63,6 +63,48 @@
             background-color: #0974ba;
             color: #fff;
         }
+
+        .countdown {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .countdown .countdown-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .countdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 6px 10px;
+            border-radius: 2px;
+            background: linear-gradient(to bottom, #ff5e00, #f4955e);
+        }
+
+        .countdown-item-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .countdown-item-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .countdown-item-separator {
+            font-size: 14px;
+            font-weight: 600;
+        }
     </style>
 @endsection
 
@@ -80,7 +122,8 @@
                     </li>
                     <li class="breadcrumb-item " itemprop="itemListElement" itemscope
                         itemtype="https://schema.org/ListItem">
-                        <a itemprop="item" title="Điện thoại - Sim" href="{{ route('front.show-product-category', $product->category->slug) }}">
+                        <a itemprop="item" title="Điện thoại - Sim"
+                            href="{{ route('front.show-product-category', $product->category->slug) }}">
                             <span itemprop="name">
                                 {{ $product->category->name }} </span>
                         </a>
@@ -101,20 +144,17 @@
         <div class="section-product-detail bg-white mb-3 pt-3 pb-3">
             <div class="container d-flex">
                 <div class="section-image d-flex">
-                    <div class="image" id="ez-image"
-                        data-zoom-image="{{ $product->image->path }}"
+                    <div class="image" id="ez-image" data-zoom-image="{{ $product->image->path }}"
                         src="{{ $product->image->path }}">
                         <div class="slider-for">
                             @foreach ($product->galleries as $gallery)
                                 <div>
-                                    <img data-zoom-image="{{ $gallery->image->path }}"
-                                        src="{{ $gallery->image->path }}"
+                                    <img data-zoom-image="{{ $gallery->image->path }}" src="{{ $gallery->image->path }}"
                                         alt="{{ $product->name }}" class="img-fluid img-ez-zoom" loading="lazy">
                                 </div>
                             @endforeach
                             <div>
-                                <img data-zoom-image="{{ $product->image->path }}"
-                                    src="{{ $product->image->path }}"
+                                <img data-zoom-image="{{ $product->image->path }}" src="{{ $product->image->path }}"
                                     alt="{{ $product->name }}" class="img-fluid img-ez-zoom" loading="lazy">
                             </div>
                         </div>
@@ -123,13 +163,13 @@
                         <div class="slider-nav">
                             @foreach ($product->galleries as $gallery)
                                 <div>
-                                    <img src="{{ $gallery->image->path }}"
-                                        alt="{{ $product->name }}" class="img-fluid" loading="lazy">
+                                    <img src="{{ $gallery->image->path }}" alt="{{ $product->name }}" class="img-fluid"
+                                        loading="lazy">
                                 </div>
                             @endforeach
                             <div>
-                                <img src="{{ $product->image->path }}"
-                                    alt="{{ $product->name }}" class="img-fluid" loading="lazy">
+                                <img src="{{ $product->image->path }}" alt="{{ $product->name }}" class="img-fluid"
+                                    loading="lazy">
                             </div>
                         </div>
                     </div>
@@ -159,7 +199,8 @@
                             </div>
                         </div>
                         <div class="p-share">
-                            <a href="{{ route('front.show-product-detail', $product->slug) }}" class="d-flex align-items-center gap-2">
+                            <a href="{{ route('front.show-product-detail', $product->slug) }}"
+                                class="d-flex align-items-center gap-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -203,18 +244,20 @@
                         </div>
                     </div>
                     <div class="p-form">
-                        @if(isset($product->attributes) && count($product->attributes) > 0)
-                        @foreach ($product->attributes as $index => $attribute)
-                            <div class="p-line product-attributes">
-                                <div class="p-line-title">{{ $attribute['name'] }}</div>
-                                <div class="p-line-content d-flex flex-wrap gap-2">
-                                    @foreach ($attribute['values'] as $value)
-                                    <a href="" data-value="{{ $value }}" data-name="{{ $attribute['name'] }}" data-index="{{ $index }}" class="p-choose p-type  active">
-                                            {{ $value }} </a>
-                                    @endforeach
+                        @if (isset($product->attributes) && count($product->attributes) > 0)
+                            @foreach ($product->attributes as $index => $attribute)
+                                <div class="p-line product-attributes">
+                                    <div class="p-line-title">{{ $attribute['name'] }}</div>
+                                    <div class="p-line-content d-flex flex-wrap gap-2">
+                                        @foreach ($attribute['values'] as $value)
+                                            <a href="" data-value="{{ $value }}"
+                                                data-name="{{ $attribute['name'] }}" data-index="{{ $index }}"
+                                                class="p-choose p-type  active">
+                                                {{ $value }} </a>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
                         @endif
                         <div class="p-line">
                             <div class="p-line-title">Số lượng</div>
@@ -239,11 +282,35 @@
                             </div>
                         </div>
                         <div class="p-submit d-flex align-items-center justify-content-between gap-3 mt-4">
-                            <a href="javascript:void(0)" class="btn-submit add-cart available" ng-click="addToCartFromProductDetail()">
+                            <a href="javascript:void(0)" class="btn-submit add-cart available"
+                                ng-click="addToCartFromProductDetail()">
                                 {{-- <img src="/site/images/cart.svg" alt="Thêm vào giỏ hàng" /> --}}
                                 Thêm vào giỏ hàng </a>
-                            <a href="javascript:void(0)" class="btn-submit buy-now available" ng-click="addToCartCheckoutFromProductDetail()">
+                            <a href="javascript:void(0)" class="btn-submit buy-now available"
+                                ng-click="addToCartCheckoutFromProductDetail()">
                                 Mua ngay </a>
+                        </div>
+                        <div class="countdown">
+                            <div class="countdown-title">
+                                <span>Giảm giá sẽ kết thúc sau:</span>
+                            </div>
+                            <div class="countdown-content" data-time="00:14:59">
+                                <div class="countdown-item">
+                                    <span class="countdown-item-number">00</span>
+                                </div>
+                                <div class="countdown-item-separator">
+                                    <span>:</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span class="countdown-item-number">00</span>
+                                </div>
+                                <div class="countdown-item-separator">
+                                    <span>:</span>
+                                </div>
+                                <div class="countdown-item">
+                                    <span class="countdown-item-number">00</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -271,7 +338,10 @@
                         <h2 class="fw-bold">Có thể bạn cũng thích</h2>
                         <div class="section-more d-flex flex-wrap">
                             @foreach ($productsRelated as $item)
-                                @include('site.products.product_item', ['product' => $item, 'vouchers' => $vouchers])
+                                @include('site.products.product_item', [
+                                    'product' => $item,
+                                    'vouchers' => $vouchers,
+                                ])
                             @endforeach
                         </div>
                     </div>
@@ -280,22 +350,71 @@
                     <div class="section-item section-hot-selling bg-white">
                         <h2 class="section-title fw-bold position-relative">Sản phẩm bán chạy</h2>
                         @foreach ($bestSellerProducts as $bestSellerProduct)
-                            @include('site.products.product_item', ['product' => $bestSellerProduct, 'vouchers' => $vouchers])
+                            @include('site.products.product_item', [
+                                'product' => $bestSellerProduct,
+                                'vouchers' => $vouchers,
+                            ])
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script language="javascript" type="text/javascript" src="/site/js/slick.min.js?v=1.74" ></script>
-    <script language="javascript" type="text/javascript" src="/site/js/jquery.ez-plus.js?v=1.74" ></script>
-    <script language="javascript" type="text/javascript" src="/site/js/select2.min.js?v=1.74" ></script>
-    <script language="javascript" type="text/javascript" src="/site/js/product.js?v=1.74" ></script>
+    <script language="javascript" type="text/javascript" src="/site/js/slick.min.js?v=1.74"></script>
+    <script language="javascript" type="text/javascript" src="/site/js/jquery.ez-plus.js?v=1.74"></script>
+    <script language="javascript" type="text/javascript" src="/site/js/select2.min.js?v=1.74"></script>
+    <script language="javascript" type="text/javascript" src="/site/js/product.js?v=1.74"></script>
 @endsection
 
 @push('script')
-
     <script>
+        $(document).ready(function() {
+            $('.countdown-content').each(function() {
+                const $container = $(this);
+                const key = 'countdown_end_time'; // localStorage key
+                const timeStr = $container.data('time'); // "HH:MM:SS"
+                const timeParts = timeStr.split(':').map(Number);
+                const cycleSeconds = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
+
+                function setNewEndTime() {
+                    const newEnd = Date.now() + cycleSeconds * 1000;
+                    localStorage.setItem(key, newEnd);
+                    return newEnd;
+                }
+
+                // Lấy endTime từ localStorage hoặc khởi tạo mới
+                let endTime = parseInt(localStorage.getItem(key), 10);
+                if (!endTime || isNaN(endTime) || endTime <= Date.now()) {
+                    endTime = setNewEndTime();
+                }
+
+                function updateDisplay(secondsLeft) {
+                    const hrs = String(Math.floor(secondsLeft / 3600)).padStart(2, '0');
+                    const mins = String(Math.floor((secondsLeft % 3600) / 60)).padStart(2, '0');
+                    const secs = String(secondsLeft % 60).padStart(2, '0');
+
+                    const $numbers = $container.find('.countdown-item-number');
+                    $numbers.eq(0).text(hrs);
+                    $numbers.eq(1).text(mins);
+                    $numbers.eq(2).text(secs);
+                }
+
+                updateDisplay(Math.floor((endTime - Date.now()) / 1000)); // Hiển thị ban đầu
+
+                setInterval(function() {
+                    const now = Date.now();
+                    let remainingSeconds = Math.floor((endTime - now) / 1000);
+
+                    if (remainingSeconds <= 0) {
+                        endTime = setNewEndTime(); // Reset lại thời gian mới
+                        remainingSeconds = cycleSeconds;
+                    }
+
+                    updateDisplay(remainingSeconds);
+                }, 1000);
+            });
+        });
+
         // Plus number quantiy product detail
         var plusQuantity = function() {
             if (jQuery('input[name="quantity"]').val() != undefined) {
