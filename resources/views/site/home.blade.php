@@ -231,21 +231,23 @@
                                                         @endif
                                                         <div>{{ formatCurrency($product->price) }}<sup>₫</sup></div>
                                                     </div>
-                                                    <div class="position-relative ps-2 pe-2 item-progress">
-                                                        <div class="progress position-relative" role="progressbar"
-                                                            aria-label="Sold out" aria-valuenow="100" aria-valuemin="0"
-                                                            aria-valuemax="100">
-                                                            <div class="progress-bar bg-success" style="width: 100%">
+                                                    @if ($product->button_type)
+                                                        <div class="position-relative ps-2 pe-2 item-progress">
+                                                            <div class="progress position-relative" role="progressbar"
+                                                                aria-label="Sold out" aria-valuenow="100" aria-valuemin="0"
+                                                                aria-valuemax="100">
+                                                                <div class="progress-bar bg-success" style="width: 100%">
+                                                                </div>
+                                                                <div class="position-absolute text-white progress-text">
+                                                                    Kèm quà tặng
+                                                                </div>
+                                                                <img src="https://muagimuadi.vn/modules/home/assets/images/gift.svg"
+                                                                    width="21" height="24" alt="gift"
+                                                                    class="img-fluid position-absolute img-hot"
+                                                                    style="bottom: 0">
                                                             </div>
-                                                            <div class="position-absolute text-white progress-text">
-                                                                Kèm quà tặng
-                                                            </div>
-                                                            <img src="https://muagimuadi.vn/modules/home/assets/images/gift.svg"
-                                                                width="21" height="24" alt="gift"
-                                                                class="img-fluid position-absolute img-hot"
-                                                                style="bottom: 0">
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 </a>
                                             @endforeach
                                         </div>
