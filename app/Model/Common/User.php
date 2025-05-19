@@ -132,7 +132,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function canDelete()
     {
-        return true;
+        return $this->id != 1;
     }
 
 
