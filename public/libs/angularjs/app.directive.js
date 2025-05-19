@@ -274,6 +274,114 @@ app
             }
         };
     })
+    .directive('select2MultiAjax', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                model: '=ngModel',
+                url: '@',
+                placeholder: '@'
+            },
+            link: function (scope, element, attrs) {
+                var $el = $(element);
+
+                $el.select2({
+                    multiple: true,
+                    ajax: {
+                        url: scope.url,
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                keyword: params.term || '', // term có thể rỗng
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.map(function (item) {
+                                    return { id: item.id, text: item.name };
+                                })
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: scope.placeholder || 'Chọn mục',
+                    minimumInputLength: 0, // Cho phép click mở dropdown mà không cần gõ
+                    width: '100%'
+                });
+
+                // Đồng bộ ngModel
+                $el.on('change', function () {
+                    scope.$apply(function () {
+                        scope.model = $el.val();
+                    });
+                });
+
+                // Khi model thay đổi bên ngoài
+                scope.$watch('model', function (newVal) {
+                    $el.val(newVal).trigger('change');
+                });
+            }
+        };
+    })
+    .directive('select2MultiModalAjax', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                model: '=ngModel',
+                url: '@',
+                placeholder: '@',
+                modalSelector: '@' // selector của modal (truyền từ HTML)
+            },
+            link: function (scope, element) {
+                console.log('Link function ran:', element);
+                var $el = $(element);
+
+                var dropdownParent = scope.modalSelector ? $(scope.modalSelector) : $('body');
+
+                $el.select2({
+                    multiple: true,
+                    ajax: {
+                        url: scope.url,
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                keyword: params.term || ''
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                // results: data.map(function (item) {
+                                //     return { id: item.id, text: item.name };
+                                // })
+                                results: [
+                                    { id: 1, text: 'Sản phẩm 1' },
+                                    { id: 2, text: 'Sản phẩm 2' },
+                                    { id: 3, text: 'Sản phẩm 3' }
+                                ]
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: scope.placeholder || 'Chọn mục',
+                    minimumInputLength: 0,
+                    width: '100%',
+                    dropdownParent: dropdownParent
+                });
+
+                $el.on('change', function () {
+                    scope.$apply(function () {
+                        scope.model = $el.val();
+                    });
+                });
+
+                scope.$watch('model', function (newVal) {
+                    $el.val(newVal).trigger('change');
+                });
+            }
+        };
+    })
     .directive("ngTaginput", function ($timeout) {
         return {
             restrict: 'AC',

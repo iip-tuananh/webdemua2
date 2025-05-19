@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/exportExcel','Admin\ProductController@exportExcel')->name('Product.exportExcel')->middleware('checkPermission:Xuất excel sản phẩm');
             Route::get('/exportPDF','Admin\ProductController@exportPDF')->name('Product.exportPDF')->middleware('checkPermission:Xuất pdf sản phẩm');
             Route::post('/add-category-special', 'Admin\ProductController@addToCategorySpecial')->name('Product.add.category.special');
+            Route::get('/search-product-ajax', 'Admin\ProductController@searchProductAjax')->name('Product.searchProductAjax');
 
             Route::get('/act-delete', 'Admin\ProductController@actDelete')->name('products.delete.multi');
             Route::post('/{id}/deleteFile', 'Admin\ProductController@deleteFile')->name('products.deleteFile');

@@ -202,7 +202,10 @@ class FrontController extends Controller
                     $canReview = true;
                 }
             }
-            $vouchers = Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->orderBy('created_at', 'desc')->get();
+            $voucher_ids = $product->vouchers()->pluck('vouchers.id')->toArray();
+            $vouchers = Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->where(function ($query) use ($voucher_ids) {
+                $query->whereIn('id', $voucher_ids)->orWhere('is_all_product', 1);
+            })->orderBy('created_at', 'desc')->get();
 
 
             return view('site.products.product_detail', compact('categories', 'product', 'productsRelated', 'category', 'arr_product_rate_images', 'bestSellerProducts', 'canReview', 'vouchers'));

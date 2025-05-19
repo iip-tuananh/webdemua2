@@ -50,7 +50,7 @@
                     </a>
                 </div>
                 <div class="mb-2">
-                    <a href="{{$config->shopee}}" title="Shopee"
+                    <a href="{{$config->twitter}}" title="Shopee"
                         class="d-inline-flex align-items-center gap-2">
                         <img src="/site/images/shopee-circle-icon.svg" alt="Shopee"
                             class="img-fluid" loading="lazy">
@@ -58,7 +58,7 @@
                     </a>
                 </div>
                 <div class="mb-2">
-                    <a href="{{$config->tiktok}}" title="Tiktok"
+                    <a href="{{$config->instagram}}" title="Tiktok"
                         class="d-inline-flex align-items-center gap-2">
                         <img src="/site/images/tiktok-circle-icon.svg" alt="Tiktok"
                             class="img-fluid" loading="lazy">

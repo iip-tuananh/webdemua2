@@ -87,11 +87,11 @@
 					</span>
 				</div>
                 <div class="form-group custom-group">
-                    <label class="form-label">Twitter</label>
+                    <label class="form-label">Shopee</label>
                     <input class="form-control" ng-model="form.twitter" type="text">
                 </div>
                 <div class="form-group custom-group">
-                    <label class="form-label">Instagram</label>
+                    <label class="form-label">Tiktok</label>
                     <input class="form-control" ng-model="form.instagram" type="text">
                 </div>
                 <div class="form-group custom-group">

@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h4 class="semi-bold">Thêm mã giảm giá</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" ng-if="currentModal === '#create-voucher'">
                 @include('admin.vouchers.form')
             </div>
             <div class="modal-footer">

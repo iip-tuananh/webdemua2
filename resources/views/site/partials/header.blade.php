@@ -112,7 +112,8 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between cart-hover-footer">
                     <div>Có <b class="cart-text-quantity"><% cart.count || 0 %></b> sản phẩm</div>
-                    <a href="{{ route('cart.checkout') }}">Xem giỏ hàng</a>
+                    <a href="
+                    ">Xem giỏ hàng</a>
                 </div>
             </div>
         </div>

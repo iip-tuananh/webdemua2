@@ -3,6 +3,7 @@
         no_set = [];
 
         before(form) {
+            if (!this.product_ids) this.product_ids = [];
         }
 
         after(form) {
@@ -27,7 +28,6 @@
             this._from_date = value ? moment(value).format('YYYY-MM-DD') : '';
         }
 
-
         get submit_data() {
             let data = {
                 name: this.name,
@@ -42,6 +42,8 @@
                 to_date: this._to_date,
                 description: this.description,
                 content: this.content,
+                is_all_product: this.is_all_product ? 1 : 0,
+                product_ids: this.product_ids,
             }
             data = jsonToFormData(data);
 

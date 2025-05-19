@@ -132,6 +132,11 @@ class Product extends BaseModel
         return $this->hasMany(ProductVideo::class, 'product_id');
     }
 
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'product_vouchers', 'product_id', 'voucher_id');
+    }
+
     public function getLinkAttribute()
     {
         if ($this->use_url_custom) {

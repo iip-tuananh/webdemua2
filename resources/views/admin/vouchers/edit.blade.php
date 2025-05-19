@@ -1,20 +1,21 @@
-<div class="modal fade" id="edit-voucher" tabindex="-1" role="dialog" aria-hidden="true"
-     ng-controller="EditVoucher">
+<div class="modal fade" id="edit-voucher" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="EditVoucher">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="semi-bold">Cập nhật mã giảm giá</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" ng-if="currentModal === '#edit-voucher'">
                 @include('admin.vouchers.form')
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-cons" ng-click="submit()" ng-disabled="loading.submit">
+                <button type="button" class="btn btn-success btn-cons" ng-click="submit()"
+                    ng-disabled="loading.submit">
                     <i ng-if="!loading.submit" class="fa fa-save"></i>
                     <i ng-if="loading.submit" class="fa fa-spin fa-spinner"></i>
                     Lưu
                 </button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i> Hủy</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close"></i>
+                    Hủy</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -22,22 +23,43 @@
     <!-- /.modal-dialog -->
 </div>
 <script>
-    app.controller('EditVoucher', function ($rootScope, $scope, $http) {
-        $rootScope.$on("editVoucher", function (event, data){
-            $scope.form = new Voucher(data, {scope: $scope});
-            console.log($scope.form);
+    app.controller('EditVoucher', function($rootScope, $scope, $http, $compile) {
+        $rootScope.$on("editVoucher", function(event, data) {
+            $scope.form = new Voucher(data, {
+                scope: $scope
+            });
+            $scope.currentModal = '#edit-voucher';
             $scope.$applyAsync();
+
             $scope.loading.submit = false;
-            $scope.status = [
-                {'name': 'Xuất bản', 'value': '1'},
-                {'name': 'Lưu nháp', 'value': '0'},
+            $scope.status = [{
+                    'name': 'Xuất bản',
+                    'value': '1'
+                },
+                {
+                    'name': 'Lưu nháp',
+                    'value': '0'
+                },
             ];
 
             $('#edit-voucher').modal('show');
+
+            // $('#edit-voucher').on('shown.bs.modal', function() {
+            //     var modal = angular.element(this);
+            //     var scope = modal.scope();
+
+            //     // if (!modal.data('compiled')) {
+            //         scope.$applyAsync(function() {
+            //             $compile(modal.contents())(scope);
+            //             // modal.data('compiled', true);
+            //         });
+            //     // }
+            // });
+
         });
         $scope.loading = {};
         // Submit Form sửa
-        $scope.submit = function () {
+        $scope.submit = function() {
             let url = "/admin/vouchers/" + $scope.form.id + "/update";
             $scope.loading.submit = true;
             $.ajax({
@@ -49,7 +71,7 @@
                 data: $scope.form.submit_data,
                 processData: false,
                 contentType: false,
-                success: function (response) {
+                success: function(response) {
                     if (response.success) {
                         $('#edit-voucher').modal('hide');
                         toastr.success(response.message);
@@ -60,10 +82,10 @@
                         toastr.warning(response.message);
                     }
                 },
-                error: function () {
+                error: function() {
                     toastr.error('Đã có lỗi xảy ra');
                 },
-                complete: function () {
+                complete: function() {
                     $scope.loading.submit = false;
                     $scope.$applyAsync();
                 },

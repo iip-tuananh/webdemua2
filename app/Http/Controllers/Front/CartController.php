@@ -113,7 +113,16 @@ class CartController extends Controller
 
     // áp dụng mã giảm giá (boolean)
     public function applyVoucher(Request $request) {
-        $voucher = Voucher::query()->where('code', $request->code)->first();
+        $cartCollection = \Cart::getContent();
+        $arr_voucher_ids = [];
+        foreach ($cartCollection as $item) {
+            $product = Product::query()->where('slug', $item['attributes']['slug'])->first();
+            $voucher_ids = $product->vouchers()->pluck('vouchers.id')->toArray();
+            $arr_voucher_ids = array_merge($arr_voucher_ids, Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->where(function ($query) use ($voucher_ids) {
+                $query->whereIn('id', $voucher_ids)->orWhere('is_all_product', 1);
+            })->pluck('id')->toArray());
+        }
+        $voucher = Voucher::query()->where('code', $request->code)->whereIn('id', $arr_voucher_ids)->first();
         if(isset($voucher) && (($request->total >= $voucher->limit_bill_value && $voucher->limit_bill_value > 0) || ($voucher->limit_product_qty > 0 && $request->qty >= $voucher->limit_product_qty))) {
             return Response::json(['success' => true, 'voucher' => $voucher, 'message' => 'Áp dụng mã giảm giá thành công']);
         }
@@ -183,12 +192,8 @@ class CartController extends Controller
                 'code' => 'ORDER' . date('Ymd') . '-' . $lastId
             ]);
 
-            // $revenue_amount_level_1 = 0;
-            // $revenue_amount_level_2 = 0;
-            // $revenue_amount_level_3 = 0;
-            // $revenue_amount_level_4 = 0;
-            // $revenue_amount_level_5 = 0;
             $config = \App\Model\Admin\Config::where('id',1)->select('revenue_percent_1')->first();
+            $arr_voucher_ids = [];
             foreach ($request->items as $item) {
                 $product = Product::query()->where('slug', $item['attributes']['slug'])->first();
                 $detail = new OrderDetail();
@@ -198,11 +203,11 @@ class CartController extends Controller
                 $detail->price = $item['price'];
                 $detail->attributes = isset($item['attributes']['attributes']) ? json_encode($item['attributes']['attributes']) : null;
                 $detail->save();
-                // $revenue_amount_level_1 += $product->price * $product->revenue_percent_1 / 100;
-                // $revenue_amount_level_2 += $product->price * $product->revenue_percent_2 / 100;
-                // $revenue_amount_level_3 += $product->price * $product->revenue_percent_3 / 100;
-                // $revenue_amount_level_4 += $product->price * $product->revenue_percent_4 / 100;
-                // $revenue_amount_level_5 += $product->price * $product->revenue_percent_5 / 100;
+
+                $voucher_ids = $product->vouchers()->pluck('vouchers.id')->toArray();
+                $arr_voucher_ids = array_merge($arr_voucher_ids, Voucher::query()->where('status', 1)->where('quantity', '>', 0)->where('to_date', '>=', now())->where(function ($query) use ($voucher_ids) {
+                    $query->whereIn('id', $voucher_ids)->orWhere('is_all_product', 1);
+                })->pluck('id')->toArray());
 
                 \Cart::remove($item['id']);
             }
@@ -219,94 +224,11 @@ class CartController extends Controller
                 // $current_user->save();
             }
 
-            // $current_user = User::query()->with([
-            //     'parent' => function($q) {
-            //         $q->with([
-            //             'parent' => function($q) {
-            //                 $q->with([
-            //                     'parent' => function($q) {
-            //                         $q->with([
-            //                             'parent' => function($q) {
-            //                                 $q->where('status', 1)->where('type', 10);
-            //                             }
-            //                         ])->where('status', 1)->where('type', 10);
-            //                     }
-            //                 ])->where('status', 1)->where('type', 10);
-            //             }
-            //         ])->where('status', 1)->where('type', 10);
-            //     }
-            // ])->where('id', auth()->guard('client')->user()->id)->where('email', $request->customer_email)->where('status', 1)->where('type', 10)->first();
-
-            // if($current_user) {
-            //     $order_revenue_detail = new OrderRevenueDetail();
-            //     $order_revenue_detail->order_id = $order->id;
-            //     $order_revenue_detail->order_code = $order->code;
-            //     $order_revenue_detail->user_id = $current_user->id;
-            //     $order_revenue_detail->user_email = $current_user->email;
-            //     $order_revenue_detail->user_level = 5;
-            //     $order_revenue_detail->status = 0;
-            //     // $order_revenue_detail->revenue_percent = $config->revenue_percent_5;
-            //     $order_revenue_detail->revenue_amount = $revenue_amount_level_5;
-            //     $order_revenue_detail->save();
-            // }
-
-            // if(isset($current_user->parent)) {
-            //     $order_revenue_detail = new OrderRevenueDetail();
-            //     $order_revenue_detail->order_id = $order->id;
-            //     $order_revenue_detail->order_code = $order->code;
-            //     $order_revenue_detail->user_id = $current_user->parent->id;
-            //     $order_revenue_detail->user_email = $current_user->parent->email;
-            //     $order_revenue_detail->user_level = 4;
-            //     $order_revenue_detail->status = 0;
-            //     // $order_revenue_detail->revenue_percent = $config->revenue_percent_4;
-            //     $order_revenue_detail->revenue_amount = $revenue_amount_level_4;
-            //     $order_revenue_detail->save();
-            // }
-
-            // if(isset($current_user->parent) && isset($current_user->parent->parent)) {
-            //     $order_revenue_detail = new OrderRevenueDetail();
-            //     $order_revenue_detail->order_id = $order->id;
-            //     $order_revenue_detail->order_code = $order->code;
-            //     $order_revenue_detail->user_id = $current_user->parent->parent->id;
-            //     $order_revenue_detail->user_email = $current_user->parent->parent->email;
-            //     $order_revenue_detail->user_level = 3;
-            //     $order_revenue_detail->status = 0;
-            //     // $order_revenue_detail->revenue_percent = $config->revenue_percent_3;
-            //     $order_revenue_detail->revenue_amount = $revenue_amount_level_3;
-            //     $order_revenue_detail->save();
-            // }
-
-            // if(isset($current_user->parent) && isset($current_user->parent->parent) && isset($current_user->parent->parent->parent)) {
-            //     $order_revenue_detail = new OrderRevenueDetail();
-            //     $order_revenue_detail->order_id = $order->id;
-            //     $order_revenue_detail->order_code = $order->code;
-            //     $order_revenue_detail->user_id = $current_user->parent->parent->parent->id;
-            //     $order_revenue_detail->user_email = $current_user->parent->parent->parent->email;
-            //     $order_revenue_detail->user_level = 2;
-            //     $order_revenue_detail->status = 0;
-            //     // $order_revenue_detail->revenue_percent = $config->revenue_percent_2;
-            //     $order_revenue_detail->revenue_amount = $revenue_amount_level_2;
-            //     $order_revenue_detail->save();
-            // }
-
-            // if(isset($current_user->parent) && isset($current_user->parent->parent) && isset($current_user->parent->parent->parent) && isset($current_user->parent->parent->parent->parent)) {
-            //     $order_revenue_detail = new OrderRevenueDetail();
-            //     $order_revenue_detail->order_id = $order->id;
-            //     $order_revenue_detail->order_code = $order->code;
-            //     $order_revenue_detail->user_id = $current_user->parent->parent->parent->parent->id;
-            //     $order_revenue_detail->user_email = $current_user->parent->parent->parent->parent->email;
-            //     $order_revenue_detail->user_level = 1;
-            //     $order_revenue_detail->status = 0;
-            //     // $order_revenue_detail->revenue_percent = $config->revenue_percent_1;
-            //     $order_revenue_detail->revenue_amount = $revenue_amount_level_1;
-            //     $order_revenue_detail->save();
-            // }
-
             if(\Cart::getContent()->sum('quantity') == 0) {
                 \Cart::clear();
             }
 
-            $voucher = Voucher::query()->where('code', $request->discount_code)->first();
+            $voucher = Voucher::query()->where('code', $request->discount_code)->whereIn('id', $arr_voucher_ids)->first();
             if ($voucher) {
                 $voucher->quantity -= 1;
                 $voucher->save();
